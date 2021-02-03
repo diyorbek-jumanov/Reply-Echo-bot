@@ -9,7 +9,7 @@ def getUpdates():
     url_Updates = f'https://api.telegram.org/bot{token}/getUpdates'
     res = requests.get(url_Updates)
     updates = res.json()['result']
-    pprint(updates)
+    
     final_msg = updates[-1]
     up_id = final_msg['update_id']
     message_id = final_msg['message']['message_id']
@@ -21,9 +21,12 @@ def getUpdates():
 
 
 def sendMessage(chatId, text, upid):
+    new_text = ''
+    for x in range(1, len(text) + 1):
+        new_text += text[-x]
     payload = {
         'chat_id': chatId,
-        'text': text,
+        'text': new_text,
         'reply_to_message_id': upid
     }
     url_sendMsg = f'https://api.telegram.org/bot{token}/sendMessage'
